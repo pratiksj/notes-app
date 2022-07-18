@@ -7,9 +7,15 @@ const App=(props)=> {
   
   const addNote=(event)=>{
     event.preventDefault()
-  console.log(event.target)
-
-  }
+const newObjects ={
+  content:newnote,
+  date: new Date().toISOString(),
+  important:Math.random()<0.5,
+  id:props.notes.length+1
+}
+setNote(note.concat(newObjects))
+setnewNote("") //note add vayepachi input field laii khali banauna
+}
   const handleNoteChange=(event)=>{
     console.log(event.target.value)
     setnewNote(event.target.value)
