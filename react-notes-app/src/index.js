@@ -21,12 +21,13 @@ import axios from 'axios'
 //     important: true,
 //   },
 // ];
-axios.get('http://localhost:3001/notes1').then((response)=>{
+axios.get('http://localhost:3001/notes').then((response)=>{
 console.log(response)
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <App notes={response.data}/>)
 }).catch((res)=>{
   console.log("hey there",res)
 })
 
-//ReactDOM.createRoot(document.getElementById("root")).render(
-// <App notes={response.data}/>)
+
 
