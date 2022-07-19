@@ -1,10 +1,21 @@
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import Note from "./components/Note";
+import axios from 'axios'
 
-const App=(props)=> {
-  const [note,setNote]=useState(props.notes)
+const App=()=> {
+  const [note,setNote]=useState([])
   const [newnote,setnewNote]=useState("pratiksha")
   const[showAll,setShowAll]=useState(true)
+
+  useEffect(() =>{axios.get('http://localhost:3001/notes').then(response =>{
+  setNote(response.data)
+console.log('i am using useeffect')})
+
+
+  },[showAll])
+  // axios.get('http://localhost:3001/notes').then(response =>{
+  //   setNote(response.data)
+  //   console.log(response.data)}) use effect na halera garyo vane then function ma vako console.log call vako vaye garxa
   
 const addNote=(event)=>{
     event.preventDefault()

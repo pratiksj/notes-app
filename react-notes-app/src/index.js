@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import axios from 'axios'
 // const notes = [
 //   {
 //     id: 1,
@@ -21,13 +20,11 @@ import axios from 'axios'
 //     important: true,
 //   },
 // ];
-axios.get('http://localhost:3001/notes').then((response)=>{
-console.log(response)
+//axios.get('http://localhost:3001/notes').then((response)=>{
+//console.log(response)
+//})
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <App notes={response.data}/>)
-}).catch((res)=>{
-  console.log("hey there",res)
-})
+<App/>)
 
 
 
