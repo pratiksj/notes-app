@@ -11,10 +11,10 @@ const addNote=(event)=>{
 const newObjects ={
   content:newnote,
   date: new Date().toISOString(),
-  important:Math.random()<0.5,
+  important:Math.random()<0.5, //math.radom le 0 dekhi less tha 1 ko bich ko random number dinxa 
   id:note.length+1
 }
-setNote(note.concat(newObjects))
+setNote(note.concat(newObjects)) //naya object banaune
 setnewNote("") //note add vayepachi input field laii khali banauna
 }
   const handleNoteChange=(event)=>{
