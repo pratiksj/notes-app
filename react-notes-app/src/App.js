@@ -8,8 +8,7 @@ const App=()=> {
   const[showAll,setShowAll]=useState(true)
 
   useEffect(() =>{axios.get('http://localhost:3001/notes').then(response =>{
-  setNote(response.data)
-console.log('i am using useeffect')})
+  setNote(response.data)})
 
 
   },[showAll])
@@ -23,13 +22,18 @@ const newObjects ={
   content:newnote,
   date: new Date().toISOString(),
   important:Math.random()<0.5, //math.radom le 0 dekhi less tha 1 ko bich ko random number dinxa 
-  id:note.length+1
+  //id:note.length+1 post use garepachi backend le afaile id create garxa hamle halnu parne
 }
-setNote(note.concat(newObjects)) //naya object banaune
-setnewNote("") //note add vayepachi input field laii khali banauna
+axios.post('http://localhost:3001/notes',newObjects).then((response=>{
+  //console.log(response)
+  setNote(note.concat(response.data)) //naya object banaune jun naya note banauxa response telai naii farkauxa
+setnewNote("")
+  
+}))
+ //note add vayepachi input field laii khali banauna
 }
   const handleNoteChange=(event)=>{
-    console.log(event.target.value)
+//console.log(event.target.value)
     setnewNote(event.target.value)
   }
 const toggleShowAll=()=>{
