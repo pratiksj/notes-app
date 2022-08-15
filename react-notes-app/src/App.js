@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react"
 import Note from "./components/Note";
-import axios from 'axios'
+//import axios from 'axios'
 import noteService from "./services/note"
 
 const App=()=> {
@@ -21,14 +21,14 @@ const App=()=> {
   
 const addNote=(event)=>{
     event.preventDefault()
-const newObjects ={
+const newObject ={ 
   content:newnote,
   date: new Date().toISOString(),
   important:Math.random()<0.5, //math.radom le 0 dekhi less tha 1 ko bich ko random number dinxa 
   //id:note.length+1 post use garepachi backend le afaile id create garxa hamle halnu parne
 }
 //axios.post('http://localhost:3001/notes',newObjects) //request matra gareko
-noteService.create(newObjects).then((result)=>{
+noteService.create(newObject).then((result)=>{
   //console.log(response)
   setNote(note.concat(result)) //naya object banaune jun naya note banauxa response telai naii farkauxa
 setnewNote("")
@@ -55,7 +55,7 @@ const notesToShow = showAll?note:note.filter(note=>note.important===true) //tern
       </button>
       <ul>
       {notesToShow.map((x) => (
-          <Note key={x.id} note={x} toggleImportance={()=>{
+          <Note key={x.id} note={x} toggleImportance=  {()=>{
             //console.log(`I am clicked from the function ${x.id}`)
             //1.make new object from current note with toggle important field
             const updateNote ={...x, important:!x.important}
@@ -64,8 +64,9 @@ const notesToShow = showAll?note:note.filter(note=>note.important===true) //tern
             noteService.update(x.id,updateNote).then((data)=>{
             //3.now, alos updated the frontend object
               setNote(note.map((y)=>(y.id!==x.id ? y:data))) //naya object banaune jun naya note banauxa response telai naii farkauxa
-            //setnewNote("")
-              
+            setnewNote("") }).catch((error)=>{
+             console.log('caught the error')
+             setNote(note.filter((x)=>x.id!==note.id)) 
             })
         }
       }
