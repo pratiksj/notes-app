@@ -32,9 +32,10 @@ App.get("/notes",(request,response)=>{
 })
 
 App.get("/notes/:id",(request,response)=>{
-  const currentId = request.params.id
-  const thisNote = notes.find(note=>note.id===currentId)
-  response.send(`The value passed is ${currentId}`)
+  const currentId = Number(request.params.id);
+  const thisNote = notes.find((note)=>note.id === currentId)
+  if (thisNote) response.json(thisNote)
+  else response.status(404).json({error:404, message:`There is no note with id ${currentId}`})
 })
 
 App.listen('3001', ()=>{
