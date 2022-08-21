@@ -4,6 +4,18 @@ const { response } = require("express")
 const App = express()  // app vannema server app banyooo 
 App.use(cors())
 App.use(express.json())
+App.use((request, response, next) => {
+  //console.log("This is middleware")
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  response.someThis = "hellow there"
+  next()     //next must be call to run every code below otherwise it gets blocked
+})
+
+//App.use(express.json())
+
 
 let notes = [
     {
@@ -56,7 +68,9 @@ App.post("/notes/",(request,response)=>{
   response.status(201).json(myIncomingData)
 })
 
+App.use((request, response, next) => {
+  response.status(404).send("<h1>No routes found for this request</h1>")})
 
 App.listen('3001', ()=>{
-  console.log("server listening on 3001")
+  console.log("server listening on 3001");
 })
