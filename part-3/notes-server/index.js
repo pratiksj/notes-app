@@ -2,8 +2,10 @@ const express = require("express")
 const cors = require("cors")
 const { response } = require("express")
 const App = express()  // app vannema server app banyooo 
+App.use(express.static("build"))//this is also middleware
 App.use(cors())
 App.use(express.json())
+
 App.use((request, response, next) => {
   //console.log("This is middleware")
   console.log('Method:', request.method)
