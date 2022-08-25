@@ -49,7 +49,7 @@ const notesToShow = showAll?note:note.filter(note=>note.important===true) //tern
 
   return (
     <div>
-      <h1>Hellow there</h1>
+      <h1>Heroku Notes</h1>
       <button onClick={toggleShowAll}>Show {showAll?"important":"all"}
 
       </button>
