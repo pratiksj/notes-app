@@ -9,11 +9,11 @@ const password = process.argv[2]
  
 //const url = `mongodb+srv://:${password}@cluster0.cnk2vze.mongodb.net/NewDatabase?retryWrites=true&w=majority`
 //const url = `mongodb+srv://:${password}@cluster0.cnk2vze.mongodb.net/NewDatabase?retryWrites=true&w=majority`
-const url =`mongodb+srv://pratiksha:${password}@cluster0.cnk2vze.mongodb.net/NewDatabase?retryWrites=true&w=majority`
+const url =`mongodb+srv://pratiksha:${password}@cluster0.cnk2vze.mongodb.net/MyNotes?retryWrites=true&w=majority`
 
 
 const noteSchema = new mongoose.Schema({
-    
+
   content: String,
   date: Date,
   important: Boolean,
@@ -26,16 +26,21 @@ mongoose
   .then((result) => {
     console.log('connected')
 
-    const note = new Note({
-      content: 'HTML is Easy',
-      date: new Date(),
-      important: true,
-    })
+    // const note = new Note({
+    //   content: 'JS is HARD',
+    //   date: new Date(),
+    //   important: false,
+    // })
+    // return note.save()
 
-    return note.save()
+const notes= Note.find({important:false})
+return notes
   })
-  .then(() => {
-    console.log('note saved!')
+  .then((result) => {
+    result.forEach(note => {
+        console.log(note)
+      })
+    //console.log('note saved!')
     return mongoose.connection.close()
   })
   .catch((err) => console.log(err))
