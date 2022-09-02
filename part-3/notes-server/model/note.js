@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-require("dotenv").config()
+require("dotenv").config() //dotenv install garepaci 
 
 const url = process.env.MONGODB_URI //local host ko lagi matra ho
 
