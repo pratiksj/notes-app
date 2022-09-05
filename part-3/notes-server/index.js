@@ -53,33 +53,85 @@ App.get("/notes",(request,response)=>{
   //response.json(notes)
 })
 
-App.get("/notes/:id",(request,response)=>{
-  const currentId = Number(request.params.id);
-  //console.log(currentId)
-  const thisNote = notes.find((note)=>note.id === currentId)
-  if (thisNote) response.json(thisNote)
-  else response.status(404).json({error:404, message:`There is no note with id ${currentId}`})
+App.get("/notes/:id",(request,response,next)=>{
+  Note.findById(request.params.id)   
+    .then(note => {
+      if (note) {
+        response.json(note)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {  //database call gareko fail vayo vane error falxa
+      console.log(error)
+      next(error)
+      //response.status(500).end()
+    })
+  // const currentId = Number(request.params.id);
+  // //console.log(currentId)
+  // const thisNote = notes.find((note)=>note.id === currentId)
+  // if (thisNote) response.json(thisNote)
+  // else response.status(404).json({error:404, message:`There is no note with id ${currentId}`})
 })
 
-App.delete("/notes/:id",(request,response)=>{
-  const currentId = Number(request.params.id);
-  notes= notes.filter((note)=>note.id !== currentId)
-  // const thisNote = notes.find((note)=>note.id === currentId)
-   
-  response.status(204).end()
+App.delete('/notes/:id', (request, response, next) => {
+  Note.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
-App.post("/notes/",(request,response)=>{
-  let myIncomingData = request.body
-  myIncomingData.id = notes.length+1;
-  notes.push(myIncomingData)
-  
-  response.status(201).json(myIncomingData)
+App.post('/notes', (request, response) => {
+  const body = request.body
+
+  if (body.content === undefined) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+    date: new Date(),
+  })
+
+  note.save().then(savedNote => {
+    response.json(savedNote)
+  })
 })
+App.put('/notes/:id', (request, response, next) => {
+  const body = request.body
+
+  const note = {
+    content: body.content,
+    important: body.important,
+  }
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
+})
+
 
 App.use((request, response, next) => {
   response.status(404).send("<h1>No routes found for this request</h1>")})
 
+  const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+  
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    } 
+  
+    next(error)
+  }
+  
+  // this has to be the last loaded middleware.
+  App.use(errorHandler)
+
   const PORT = process.env.PORT || "3001"  //kunai server ma chai default port hunca tei vayera ternaery
+
 
 App.listen(PORT, ()=>{
   console.log(`server listening on ${PORT}`);
