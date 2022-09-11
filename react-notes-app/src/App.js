@@ -9,7 +9,7 @@ const App=()=> {
   const [note,setNote]=useState([])
   const [newnote,setnewNote]=useState("pratiksha")
   const[showAll,setShowAll]=useState(true)
-  const [message, setMessage]= useState("sample message")
+  const [message, setMessage]= useState(null)
   //const[message, setMessage]=useState(null)
 
   useEffect(() =>{
@@ -38,7 +38,9 @@ noteService.create(newObject).then((result)=>{
 setnewNote("")
   
 }).catch(error=>{
-  setMessage(error.error)
+  console.log('this is error')
+  console.dir(error)
+  setMessage(error.response.data.error)
   setTimeout(() => {
     setMessage("");
   }, 2000)
