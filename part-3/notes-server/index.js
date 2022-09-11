@@ -1,6 +1,6 @@
 const express = require("express")
 const cors = require("cors")
-const Note = require('./model/note')
+//const Note = require('./model/note')
 
 const { response } = require("express")
 const App = express()  // app vannema server app banyooo 
@@ -53,7 +53,7 @@ App.get("/notes",(request,response)=>{
   //response.json(notes)
 })
 
-App.get("/notes/:id",(request,response,next)=>{
+App.get("/notes/:id",(request,response)=>{
   Note.findById(request.params.id)   
     .then(note => {
       if (note) {
@@ -81,12 +81,13 @@ App.delete('/notes/:id', (request, response, next) => {
     })
     .catch(error => next(error))
 })
-App.post('/notes', (request, response) => {
+App.post('/notes', (request, response,next) => {
   const body = request.body
+  //console.log("body.content is",body.content)
 
-  if (body.content === undefined) {
-    return response.status(400).json({ error: 'content missing' })
-  }
+  // if (body.content === "") {
+  //   return response.status(400).json({ error: 'content missing' })
+  // }
 
   const note = new Note({
     content: body.content,
@@ -96,7 +97,7 @@ App.post('/notes', (request, response) => {
 
   note.save().then(savedNote => {
     response.json(savedNote)
-  })
+  }).catch(error => next(error))
 })
 App.put('/notes/:id', (request, response, next) => {
   const body = request.body
@@ -122,7 +123,9 @@ App.use((request, response, next) => {
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name === 'ValidationError') {
+      return response.status(400).json({ error: error.message })
+    }
   
     next(error)
   }

@@ -8,8 +8,7 @@ console.log(process.env.MONG) //node ma environment variable pass garna multiple
 
 const password = process.argv[2]
  
-//const url = `mongodb+srv://:${password}@cluster0.cnk2vze.mongodb.net/NewDatabase?retryWrites=true&w=majority`
-//const url = `mongodb+srv://:${password}@cluster0.cnk2vze.mongodb.net/NewDatabase?retryWrites=true&w=majority`
+ 
 const url =`mongodb+srv://pratiksha:${password}@cluster0.cnk2vze.mongodb.net/MyNotes?retryWrites=true&w=majority`
 
 const noteSchema = new mongoose.Schema({

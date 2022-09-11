@@ -1,12 +1,16 @@
 import {useState, useEffect} from "react"
 import Note from "./components/Note";
 //import axios from 'axios'
+import Footer from "./components/Footer"
 import noteService from "./services/note"
+import Notification from "./components/Notification";
 
 const App=()=> {
   const [note,setNote]=useState([])
   const [newnote,setnewNote]=useState("pratiksha")
   const[showAll,setShowAll]=useState(true)
+  const [message, setMessage]= useState(null)
+  //const[message, setMessage]=useState(null)
 
   useEffect(() =>{
     //axios.get('http://localhost:3001/notes')
@@ -33,6 +37,11 @@ noteService.create(newObject).then((result)=>{
   setNote(note.concat(result)) //naya object banaune jun naya note banauxa response telai naii farkauxa
 setnewNote("")
   
+}).catch(error=>{
+  setMessage(error.error)
+  setTimeout(() => {
+    setMessage("");
+  }, 2000)
 })
  //note add vayepachi input field laii khali banauna
 }
@@ -50,7 +59,10 @@ const notesToShow = showAll?note:note.filter(note=>note.important===true) //tern
   return (
     <div>
       <h1>Heroku Notes</h1>
-      <button onClick={toggleShowAll}>Show {showAll?"important":"all"}
+      {/* <Notification message="this is a message" /> */}
+      <Notification message={message}/>
+
+       <button onClick={toggleShowAll}>Show {showAll?"important":"all"}
 
       </button>
       <ul>
@@ -77,6 +89,7 @@ const notesToShow = showAll?note:note.filter(note=>note.important===true) //tern
         <input value ={newnote} onChange={handleNoteChange}/>
         <button>click me</button>
       </form>
+      <Footer/>
       
     </div>
   );
