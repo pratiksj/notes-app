@@ -9,7 +9,7 @@ const App=()=> {
   const [note,setNote]=useState([])
   const [newnote,setnewNote]=useState("pratiksha")
   const[showAll,setShowAll]=useState(true)
-  const [message, setMessage]= useState(null)
+  const [message, setMessage]= useState("sample message")
   //const[message, setMessage]=useState(null)
 
   useEffect(() =>{
@@ -78,6 +78,8 @@ const notesToShow = showAll?note:note.filter(note=>note.important===true) //tern
               setNote(note.map((y)=>(y.id!==x.id ? y:data))) //naya object banaune jun naya note banauxa response telai naii farkauxa
             setnewNote("") }).catch((error)=>{
              console.log('caught the error')
+             setMessage("Note does not exisit anymore")
+             setTimeout(() => setMessage(null), 2000);
              setNote(note.filter((x)=>x.id!==note.id)) 
             })
         }
