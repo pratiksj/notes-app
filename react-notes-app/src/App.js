@@ -61,6 +61,11 @@ const toggleShowAll=()=>{
 //const filteredItems = props.notes.filter(filterFunction)
 const notesToShow = showAll?note:note.filter(note=>note.important===true) //ternary
 
+const handleLogin = (event) => {
+  event.preventDefault()
+  console.log('logging in with', username, password)
+}
+
   return (
     <div>
       <h1>Heroku Notes</h1>
