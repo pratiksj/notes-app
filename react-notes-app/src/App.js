@@ -4,14 +4,16 @@ import Note from "./components/Note";
 import Footer from "./components/Footer"
 import noteService from "./services/note"
 import Notification from "./components/Notification";
+import loginService from './services/login'
 
 const App=()=> {
   const [note,setNote]=useState([])
   const [newnote,setnewNote]=useState("pratiksha")
   const[showAll,setShowAll]=useState(true)
-  const [message, setMessage]= useState(null)
+  const [message, setErrorMessage]= useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
+  const [user, setUser] = useState(null)
   
   //const[message, setMessage]=useState(null)
 
@@ -43,9 +45,9 @@ setnewNote("")
 }).catch(error=>{
   console.log('this is error')
   console.dir(error)
-  setMessage(error.response.data.error)
+  setErrorMessage(error.response.data.error)
   setTimeout(() => {
-    setMessage("");
+    setErrorMessage("");
   }, 2000)
 })
  //note add vayepachi input field laii khali banauna
@@ -61,9 +63,22 @@ const toggleShowAll=()=>{
 //const filteredItems = props.notes.filter(filterFunction)
 const notesToShow = showAll?note:note.filter(note=>note.important===true) //ternary
 
-const handleLogin = (event) => {
+const handleLogin = async (event) => {
   event.preventDefault()
-  console.log('logging in with', username, password)
+  
+  try {
+    const user = await loginService.login({
+      username, password,
+    })
+    setUser(user)
+    setUsername('')
+    setPassword('')
+  } catch (exception) {
+    setErrorMessage('Wrong credentials')
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
 }
 
   return (
@@ -110,8 +125,8 @@ const handleLogin = (event) => {
               setNote(note.map((y)=>(y.id!==x.id ? y:data))) //naya object banaune jun naya note banauxa response telai naii farkauxa
             setnewNote("") }).catch((error)=>{
              console.log('caught the error')
-             setMessage("Note does not exisit anymore")
-             setTimeout(() => setMessage(null), 2000);
+             setErrorMessage("Note does not exisit anymore")
+             setTimeout(() => setErrorMessage(null), 2000);
              setNote(note.filter((x)=>x.id!==note.id)) 
             })
         }
