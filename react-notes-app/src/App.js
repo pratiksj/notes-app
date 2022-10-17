@@ -10,6 +10,9 @@ const App=()=> {
   const [newnote,setnewNote]=useState("pratiksha")
   const[showAll,setShowAll]=useState(true)
   const [message, setMessage]= useState(null)
+  const [username, setUsername] = useState('') 
+  const [password, setPassword] = useState('') 
+  
   //const[message, setMessage]=useState(null)
 
   useEffect(() =>{
@@ -18,7 +21,7 @@ const App=()=> {
   setNote(data)})
 
 
-  },[showAll])
+  },[])
   // axios.get('http://localhost:3001/notes').then(response =>{
   //   setNote(response.data)
   //   console.log(response.data)}) use effect na halera garyo vane then function ma vako console.log call vako vaye garxa
@@ -63,6 +66,28 @@ const notesToShow = showAll?note:note.filter(note=>note.important===true) //tern
       <h1>Heroku Notes</h1>
       {/* <Notification message="this is a message" /> */}
       <Notification message={message}/>
+
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+            <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+            <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
 
        <button onClick={toggleShowAll}>Show {showAll?"important":"all"}
 
