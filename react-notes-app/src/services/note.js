@@ -1,7 +1,11 @@
 import axios from 'axios'
 //const baseUrl = 'http://localhost:3001/notes' ab url yesari na rakhda ni hunxa
 const baseUrl = '/api/notes'
+let token = null
 
+const setToken = newToken => {
+  token = `bearer ${newToken}`
+}
 
 
 const getAll = () => {
@@ -23,4 +27,5 @@ export default {   //key rah value eutao vaeyeko le talal jasari lekheko
   getAll, 
   create, 
   update, 
+  setToken,
 };

@@ -8,7 +8,7 @@ import loginService from './services/login'
 
 const App=()=> {
   const [note,setNote]=useState([])
-  const [newnote,setnewNote]=useState("pratiksha")
+  const [newnote,setnewNote]=useState("Add a new note")
   const[showAll,setShowAll]=useState(true)
   const [message, setErrorMessage]= useState(null)
   const [username, setUsername] = useState('') 
@@ -81,33 +81,53 @@ const handleLogin = async (event) => {
   }
 }
 
+const loginForm = () => (
+  <form onSubmit={handleLogin}>
+    <div>
+      username
+        <input
+        type="text"
+        value={username}
+        name="Username"
+        onChange={({ target }) => setUsername(target.value)}
+      />
+    </div>
+    <div>
+      password
+        <input
+        type="password"
+        value={password}
+        name="Password"
+        onChange={({ target }) => setPassword(target.value)}
+      />
+    </div>
+    <button type="submit">login</button>
+  </form>      
+)
+// const noteForm=()=>{
+//   <form onSubmit={addNote}>
+//         <input value ={newnote} onChange={handleNoteChange}/>
+//         <button type="submit">click me</button>
+//       </form>
+// }
+const noteForm = () => (
+  <form onSubmit={addNote}>
+    <input
+      value={newnote}
+      onChange={handleNoteChange}
+    />
+    <button type="submit">click me</button>
+  </form>  
+)
   return (
     <div>
       <h1>Heroku Notes</h1>
       {/* <Notification message="this is a message" /> */}
       <Notification message={message}/>
-
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-            <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-            <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
+      {user === null ?
+      loginForm() :
+      noteForm()
+    }
 
        <button onClick={toggleShowAll}>Show {showAll?"important":"all"}
 
@@ -134,10 +154,7 @@ const handleLogin = async (event) => {
      />
         ))}
       </ul>
-      <form onSubmit={addNote}>
-        <input value ={newnote} onChange={handleNoteChange}/>
-        <button>click me</button>
-      </form>
+      
       <Footer/>
       
     </div>
