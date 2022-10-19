@@ -27,7 +27,14 @@ const App=()=> {
   // axios.get('http://localhost:3001/notes').then(response =>{
   //   setNote(response.data)
   //   console.log(response.data)}) use effect na halera garyo vane then function ma vako console.log call vako vaye garxa
-  
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, [])
 const addNote=(event)=>{
     event.preventDefault()
 const newObject ={ 
@@ -70,7 +77,11 @@ const handleLogin = async (event) => {
     const user = await loginService.login({
       username, password,
     })
+    noteService.setToken(user.token)
     setUser(user)
+    window.localStorage.setItem(
+      'loggedNoteappUser', JSON.stringify(user)
+    ) 
     setUsername('')
     setPassword('')
   } catch (exception) {
@@ -124,11 +135,17 @@ const noteForm = () => (
       <h1>Heroku Notes</h1>
       {/* <Notification message="this is a message" /> */}
       <Notification message={message}/>
-      {user === null ?
+      {/* {user === null ?
       loginForm() :
       noteForm()
+    } */}
+{user === null ?
+      loginForm() :
+      <div>
+        <p>{user.name} logged-in</p>
+        {noteForm()}
+      </div>
     }
-
        <button onClick={toggleShowAll}>Show {showAll?"important":"all"}
 
       </button>
