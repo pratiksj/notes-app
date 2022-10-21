@@ -11,7 +11,7 @@ import NoteForm from "./components/NoteForm";
 
 const App = () => {
   const [note, setNote] = useState([]);
-  const [newnote, setnewNote] = useState("Add a new note");
+  // const [newnote, setnewNote] = useState("Add a new note");
   const [showAll, setShowAll] = useState(true);
   const [message, setErrorMessage] = useState(null);
   const [username, setUsername] = useState("");
@@ -37,36 +37,13 @@ const App = () => {
       noteService.setToken(user.token);
     }
   }, []);
-  const addNote = (event) => {
-    event.preventDefault();
-    const newObject = {
-      content: newnote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5, //math.radom le 0 dekhi less tha 1 ko bich ko random number dinxa
-      //id:note.length+1 post use garepachi backend le afaile id create garxa hamle halnu parne
-    };
-    //axios.post('http://localhost:3001/notes',newObjects) //request matra gareko
-    noteService
-      .create(newObject)
-      .then((result) => {
-        //console.log(response)
-        setNote(note.concat(result)); //naya object banaune jun naya note banauxa response telai naii farkauxa
-        setnewNote("");
-      })
-      .catch((error) => {
-        console.log("this is error");
-        console.dir(error);
-        setErrorMessage(error.response.data.error);
-        setTimeout(() => {
-          setErrorMessage("");
-        }, 2000);
-      });
-    //note add vayepachi input field laii khali banauna
+
+  const addNote = (noteObject) => {
+    noteService.create(noteObject).then((returnedNote) => {
+      setNote(note.concat(returnedNote));
+    });
   };
-  const handleNoteChange = (event) => {
-    //console.log(event.target.value)
-    setnewNote(event.target.value);
-  };
+
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
@@ -111,11 +88,7 @@ const App = () => {
 
   const noteForm = () => (
     <Togglable buttonLabel="new note">
-      <NoteForm
-        onSubmit={addNote}
-        value={newnote}
-        handleChange={handleNoteChange}
-      />
+      <NoteForm createNote={addNote} />
     </Togglable>
   );
   return (
@@ -154,7 +127,6 @@ const App = () => {
                 .then((data) => {
                   //3.now, alos updated the frontend object
                   setNote(note.map((y) => (y.id !== x.id ? y : data))); //naya object banaune jun naya note banauxa response telai naii farkauxa
-                  setnewNote("");
                 })
                 .catch((error) => {
                   console.log("caught the error");
