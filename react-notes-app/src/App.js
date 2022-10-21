@@ -5,6 +5,8 @@ import Footer from "./components/Footer"
 import noteService from "./services/note"
 import Notification from "./components/Notification";
 import loginService from './services/login'
+import Togglable from "./components/Togglable";
+import LoginForm from "./components/LoginForm";
 
 const App=()=> {
   const [note,setNote]=useState([])
@@ -93,27 +95,15 @@ const handleLogin = async (event) => {
 }
 
 const loginForm = () => (
-  <form onSubmit={handleLogin}>
-    <div>
-      username
-        <input
-        type="text"
-        value={username}
-        name="Username"
-        onChange={({ target }) => setUsername(target.value)}
-      />
-    </div>
-    <div>
-      password
-        <input
-        type="password"
-        value={password}
-        name="Password"
-        onChange={({ target }) => setPassword(target.value)}
-      />
-    </div>
-    <button type="submit">login</button>
-  </form>      
+  <Togglable buttonLabel='Show me login'>
+  <LoginForm
+    username={username}
+    password={password}
+    handleUsernameChange={({ target }) => setUsername(target.value)}
+    handlePasswordChange={({ target }) => setPassword(target.value)}
+    handleSubmit={handleLogin}
+  />
+</Togglable>  
 )
 // const noteForm=()=>{
 //   <form onSubmit={addNote}>
