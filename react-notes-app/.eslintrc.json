@@ -1,28 +1,24 @@
 {
   "env": {
-      "browser": true,
-      "es6": true,
-      "jest/globals": true 
+    "browser": true,
+    "es6": true,
+    "jest/globals": true
   },
-  "extends": [ 
-      "eslint:recommended",
-      "plugin:react/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
-      "ecmaFeatures": {
-          "jsx": true
-      },
-      "ecmaVersion": 2018,
-      "sourceType": "module"
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
-  "plugins": [
-      "react", "jest"
-  ],
+  "plugins": ["react", "jest"],
   "rules": {
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
     "eqeqeq": "error",
-    "no-console": 0
+    "no-console": 0,
+    "react/display-name": "off"
   },
   "settings": {
     "react": {
