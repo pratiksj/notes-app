@@ -17,8 +17,7 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
     "eqeqeq": "error",
-    "no-console": 0,
-    "react/display-name": "off"
+    "no-console": 0
   },
   "settings": {
     "react": {

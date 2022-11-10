@@ -49,11 +49,12 @@ const App = () => {
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
-  //const filterFunction=(y)=> y.important ===true
-  //const filteredItems = props.notes.filter(filterFunction)
-  const notesToShow = showAll
-    ? note
-    : note.filter((note) => note.important === true); //ternary
+  const filterFunction = (y) => y.important === true;
+  const filteredItems = note.filter(filterFunction);
+  // const notesToShow = showAll
+  //   ? note
+  //   : note.filter((note) => note.important === true); //ternary
+  const notesToShow = showAll ? note : filteredItems;
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -95,7 +96,7 @@ const App = () => {
   );
   return (
     <div>
-      <h1>Heroku Notes</h1>
+      <h1>Notes</h1>
       {/* <Notification message="this is a message" /> */}
       <Notification message={message} />
       {/* {user === null ?
@@ -110,6 +111,7 @@ const App = () => {
           {noteForm()}
         </div>
       )}
+
       <button onClick={toggleShowAll}>
         Show {showAll ? "important" : "all"}
       </button>
