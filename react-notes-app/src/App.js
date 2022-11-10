@@ -132,7 +132,7 @@ const App = () => {
                   //3.now, alos updated the frontend object
                   setNote(note.map((y) => (y.id !== x.id ? y : data))); //naya object banaune jun naya note banauxa response telai naii farkauxa
                 })
-                .catch((error) => {
+                .catch(() => {
                   console.log("caught the error");
                   setErrorMessage("Note does not exisit anymore");
                   setTimeout(() => setErrorMessage(null), 2000);
