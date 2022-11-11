@@ -1,12 +1,23 @@
 describe('Note app', function() {
-    it('front page can be opened', function() {
-      cy.visit('http://localhost:3000')
-      cy.contains('Notes')
-      cy.contains('Note app, Department of Computer Science, University of Helsinki 2022')
-    })
+  beforeEach(function() {
+    cy.visit('http://localhost:3000')
+  })
 
-    it('login form can be opened', function() {
-      cy.visit('http://localhost:3000')
-      cy.contains('login').click()
-    })
+  it('front page can be opened', function() {
+    cy.contains('Notes')
+    cy.contains('Note app, Department of Computer Science, University of Helsinki 2022')
+  })
+
+  it('login form can be opened', function() {
+    cy.contains('login').click()
+  })
+
+  it('user can login', function () {
+    cy.contains('login').click()
+    cy.get('#username').type('john')
+    cy.get('#password').type('radar')
+    cy.get('#login-button').click()
+
+    cy.contains('john logged-in')
+  })
   })
